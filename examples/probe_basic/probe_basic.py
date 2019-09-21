@@ -56,4 +56,8 @@ class ProbeBasic(VCPMainWindow):
         if button.isChecked():
             self.sq_cal_axis.setText(button.property('checkedAction'))
 
-            
+    @Slot()
+    def on_notificationButton_pressed(self):
+        print("Notification Button Pressed")
+        self.sender().setStyleSheet('border-color: black')
+

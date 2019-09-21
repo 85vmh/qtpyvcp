@@ -224,7 +224,7 @@ bottom-margin: 0px;
            <enum>QTabWidget::South</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="main_tab">
            <attribute name="title">
@@ -20809,7 +20809,7 @@ border-radius: 1px;
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton">
+            <widget class="ActionButton" name="notificationButton">
              <property name="minimumSize">
               <size>
                <width>100</width>
@@ -20823,7 +20823,10 @@ border-radius: 1px;
               </size>
              </property>
              <property name="text">
-              <string>NOTIFICATION</string>
+              <string>Notification</string>
+             </property>
+             <property name="rules" stdset="0">
+              <string>[{&quot;channels&quot;: [{&quot;url&quot;: &quot;notifications:error_message&quot;, &quot;trigger&quot;: true}], &quot;property&quot;: &quot;Style Sheet&quot;, &quot;expression&quot;: &quot;\&quot;border: red\&quot;&quot;, &quot;name&quot;: &quot;New Rule&quot;}]</string>
              </property>
             </widget>
            </item>
@@ -25350,8 +25353,8 @@ font: 11pt bebas kai;
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>476</x>
-     <y>772</y>
+     <x>474</x>
+     <y>777</y>
     </hint>
     <hint type="destinationlabel">
      <x>574</x>
@@ -25590,12 +25593,12 @@ font: 11pt bebas kai;
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>213</x>
-     <y>89</y>
+     <x>1445</x>
+     <y>178</y>
     </hint>
     <hint type="destinationlabel">
-     <x>215</x>
-     <y>91</y>
+     <x>1590</x>
+     <y>179</y>
     </hint>
    </hints>
   </connection>
@@ -25606,12 +25609,12 @@ font: 11pt bebas kai;
    <slot>deleteSelectedTool()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>148</x>
-     <y>88</y>
+     <x>198</x>
+     <y>621</y>
     </hint>
     <hint type="destinationlabel">
-     <x>128</x>
-     <y>85</y>
+     <x>167</x>
+     <y>190</y>
     </hint>
    </hints>
   </connection>
@@ -25622,12 +25625,12 @@ font: 11pt bebas kai;
    <slot>saveToolTable()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>148</x>
-     <y>88</y>
+     <x>806</x>
+     <y>621</y>
     </hint>
     <hint type="destinationlabel">
-     <x>128</x>
-     <y>85</y>
+     <x>167</x>
+     <y>190</y>
     </hint>
    </hints>
   </connection>
@@ -25638,12 +25641,12 @@ font: 11pt bebas kai;
    <slot>loadToolTable()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>168</x>
-     <y>88</y>
+     <x>978</x>
+     <y>621</y>
     </hint>
     <hint type="destinationlabel">
-     <x>128</x>
-     <y>85</y>
+     <x>167</x>
+     <y>190</y>
     </hint>
    </hints>
   </connection>
@@ -25654,12 +25657,12 @@ font: 11pt bebas kai;
    <slot>setViewY()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>146</x>
-     <y>79</y>
+     <x>781</x>
+     <y>184</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -25670,12 +25673,12 @@ font: 11pt bebas kai;
    <slot>setViewX()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>146</x>
-     <y>79</y>
+     <x>781</x>
+     <y>142</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -25686,12 +25689,12 @@ font: 11pt bebas kai;
    <slot>zoomIn()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>146</x>
-     <y>79</y>
+     <x>781</x>
+     <y>320</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -25702,12 +25705,12 @@ font: 11pt bebas kai;
    <slot>addTool()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>148</x>
-     <y>88</y>
+     <x>350</x>
+     <y>621</y>
     </hint>
     <hint type="destinationlabel">
-     <x>128</x>
-     <y>85</y>
+     <x>167</x>
+     <y>190</y>
     </hint>
    </hints>
   </connection>
@@ -25718,12 +25721,12 @@ font: 11pt bebas kai;
    <slot>clearLivePlot()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>146</x>
-     <y>79</y>
+     <x>781</x>
+     <y>550</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -25734,12 +25737,12 @@ font: 11pt bebas kai;
    <slot>setViewZ()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>146</x>
-     <y>79</y>
+     <x>781</x>
+     <y>226</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -25750,12 +25753,12 @@ font: 11pt bebas kai;
    <slot>setViewP()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>146</x>
-     <y>79</y>
+     <x>781</x>
+     <y>100</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -25766,12 +25769,12 @@ font: 11pt bebas kai;
    <slot>setViewPath()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>146</x>
-     <y>79</y>
+     <x>781</x>
+     <y>508</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -25782,12 +25785,12 @@ font: 11pt bebas kai;
    <slot>zoomOut()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>146</x>
-     <y>79</y>
+     <x>781</x>
+     <y>362</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -25798,12 +25801,12 @@ font: 11pt bebas kai;
    <slot>toggleProgramBounds()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1835</x>
+     <y>148</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -25814,12 +25817,12 @@ font: 11pt bebas kai;
    <slot>toggleMachineBounds()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1835</x>
+     <y>193</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -25830,12 +25833,12 @@ font: 11pt bebas kai;
    <slot>toggleProgramBounds()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1835</x>
+     <y>148</y>
     </hint>
     <hint type="destinationlabel">
-     <x>163</x>
-     <y>76</y>
+     <x>1249</x>
+     <y>189</y>
     </hint>
    </hints>
   </connection>
@@ -25846,12 +25849,12 @@ font: 11pt bebas kai;
    <slot>toggleMachineTicks()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1835</x>
+     <y>295</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -25862,12 +25865,12 @@ font: 11pt bebas kai;
    <slot>toggleProgramTicks()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1835</x>
+     <y>250</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -25878,12 +25881,12 @@ font: 11pt bebas kai;
    <slot>toggleMachineLabels()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1835</x>
+     <y>397</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -25894,12 +25897,12 @@ font: 11pt bebas kai;
    <slot>toggleProgramLabels()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1835</x>
+     <y>352</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -25910,12 +25913,12 @@ font: 11pt bebas kai;
    <slot>setViewPersp()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>146</x>
-     <y>79</y>
+     <x>781</x>
+     <y>644</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -25926,12 +25929,12 @@ font: 11pt bebas kai;
    <slot>setViewOrtho()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>146</x>
-     <y>79</y>
+     <x>781</x>
+     <y>602</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -25942,12 +25945,12 @@ font: 11pt bebas kai;
    <slot>setViewP()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1738</x>
+     <y>148</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -25958,12 +25961,12 @@ font: 11pt bebas kai;
    <slot>showGrid(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1835</x>
+     <y>454</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -25974,12 +25977,12 @@ font: 11pt bebas kai;
    <slot>setViewY()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1738</x>
+     <y>233</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -25990,12 +25993,12 @@ font: 11pt bebas kai;
    <slot>setViewX()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1738</x>
+     <y>191</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -26006,12 +26009,12 @@ font: 11pt bebas kai;
    <slot>zoomOut()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1738</x>
+     <y>385</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -26022,12 +26025,12 @@ font: 11pt bebas kai;
    <slot>zoomIn()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1738</x>
+     <y>343</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -26038,12 +26041,12 @@ font: 11pt bebas kai;
    <slot>clearLivePlot()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1738</x>
+     <y>453</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -26054,12 +26057,12 @@ font: 11pt bebas kai;
    <slot>setViewOrtho()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1738</x>
+     <y>520</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -26070,12 +26073,12 @@ font: 11pt bebas kai;
    <slot>setViewPersp()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1738</x>
+     <y>562</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -26086,12 +26089,12 @@ font: 11pt bebas kai;
    <slot>setViewMachine()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1835</x>
+     <y>562</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -26102,12 +26105,12 @@ font: 11pt bebas kai;
    <slot>printView()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1835</x>
+     <y>518</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -26118,12 +26121,12 @@ font: 11pt bebas kai;
    <slot>setViewP()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1738</x>
+     <y>148</y>
     </hint>
     <hint type="destinationlabel">
-     <x>163</x>
-     <y>76</y>
+     <x>1249</x>
+     <y>189</y>
     </hint>
    </hints>
   </connection>
@@ -26134,12 +26137,12 @@ font: 11pt bebas kai;
    <slot>setViewPersp()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1738</x>
+     <y>562</y>
     </hint>
     <hint type="destinationlabel">
-     <x>163</x>
-     <y>76</y>
+     <x>1249</x>
+     <y>189</y>
     </hint>
    </hints>
   </connection>
@@ -26150,12 +26153,12 @@ font: 11pt bebas kai;
    <slot>setViewX()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1738</x>
+     <y>191</y>
     </hint>
     <hint type="destinationlabel">
-     <x>163</x>
-     <y>76</y>
+     <x>1249</x>
+     <y>189</y>
     </hint>
    </hints>
   </connection>
@@ -26166,12 +26169,12 @@ font: 11pt bebas kai;
    <slot>setViewY()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1738</x>
+     <y>233</y>
     </hint>
     <hint type="destinationlabel">
-     <x>163</x>
-     <y>76</y>
+     <x>1249</x>
+     <y>189</y>
     </hint>
    </hints>
   </connection>
@@ -26182,12 +26185,12 @@ font: 11pt bebas kai;
    <slot>zoomIn()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1738</x>
+     <y>343</y>
     </hint>
     <hint type="destinationlabel">
-     <x>163</x>
-     <y>76</y>
+     <x>1249</x>
+     <y>189</y>
     </hint>
    </hints>
   </connection>
@@ -26198,12 +26201,12 @@ font: 11pt bebas kai;
    <slot>zoomOut()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1738</x>
+     <y>385</y>
     </hint>
     <hint type="destinationlabel">
-     <x>163</x>
-     <y>76</y>
+     <x>1249</x>
+     <y>189</y>
     </hint>
    </hints>
   </connection>
@@ -26214,12 +26217,12 @@ font: 11pt bebas kai;
    <slot>clearLivePlot()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1738</x>
+     <y>453</y>
     </hint>
     <hint type="destinationlabel">
-     <x>163</x>
-     <y>76</y>
+     <x>1249</x>
+     <y>189</y>
     </hint>
    </hints>
   </connection>
@@ -26230,12 +26233,12 @@ font: 11pt bebas kai;
    <slot>setViewOrtho()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1738</x>
+     <y>520</y>
     </hint>
     <hint type="destinationlabel">
-     <x>163</x>
-     <y>76</y>
+     <x>1249</x>
+     <y>189</y>
     </hint>
    </hints>
   </connection>
@@ -26246,12 +26249,12 @@ font: 11pt bebas kai;
    <slot>toggleMachineTicks()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1835</x>
+     <y>295</y>
     </hint>
     <hint type="destinationlabel">
-     <x>163</x>
-     <y>76</y>
+     <x>1249</x>
+     <y>189</y>
     </hint>
    </hints>
   </connection>
@@ -26262,12 +26265,12 @@ font: 11pt bebas kai;
    <slot>showGrid(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1835</x>
+     <y>454</y>
     </hint>
     <hint type="destinationlabel">
-     <x>163</x>
-     <y>76</y>
+     <x>1249</x>
+     <y>189</y>
     </hint>
    </hints>
   </connection>
@@ -26278,12 +26281,12 @@ font: 11pt bebas kai;
    <slot>toggleMachineLabels()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1835</x>
+     <y>397</y>
     </hint>
     <hint type="destinationlabel">
-     <x>163</x>
-     <y>76</y>
+     <x>1249</x>
+     <y>189</y>
     </hint>
    </hints>
   </connection>
@@ -26294,12 +26297,12 @@ font: 11pt bebas kai;
    <slot>toggleMachineBounds()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1835</x>
+     <y>193</y>
     </hint>
     <hint type="destinationlabel">
-     <x>163</x>
-     <y>76</y>
+     <x>1249</x>
+     <y>189</y>
     </hint>
    </hints>
   </connection>
@@ -26310,12 +26313,12 @@ font: 11pt bebas kai;
    <slot>toggleProgramTicks()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1835</x>
+     <y>250</y>
     </hint>
     <hint type="destinationlabel">
-     <x>163</x>
-     <y>76</y>
+     <x>1249</x>
+     <y>189</y>
     </hint>
    </hints>
   </connection>
@@ -26326,12 +26329,12 @@ font: 11pt bebas kai;
    <slot>toggleProgramLabels()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1835</x>
+     <y>352</y>
     </hint>
     <hint type="destinationlabel">
-     <x>163</x>
-     <y>76</y>
+     <x>1249</x>
+     <y>189</y>
     </hint>
    </hints>
   </connection>
@@ -26342,12 +26345,12 @@ font: 11pt bebas kai;
    <slot>setViewMachine()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1835</x>
+     <y>562</y>
     </hint>
     <hint type="destinationlabel">
-     <x>163</x>
-     <y>76</y>
+     <x>1249</x>
+     <y>189</y>
     </hint>
    </hints>
   </connection>
@@ -26358,12 +26361,12 @@ font: 11pt bebas kai;
    <slot>printView()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1835</x>
+     <y>518</y>
     </hint>
     <hint type="destinationlabel">
-     <x>163</x>
-     <y>76</y>
+     <x>1249</x>
+     <y>189</y>
     </hint>
    </hints>
   </connection>
@@ -26374,12 +26377,12 @@ font: 11pt bebas kai;
    <slot>setViewZ()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1738</x>
+     <y>276</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>76</y>
+     <x>892</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
@@ -26390,12 +26393,12 @@ font: 11pt bebas kai;
    <slot>setViewZ()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1733</x>
-     <y>102</y>
+     <x>1738</x>
+     <y>276</y>
     </hint>
     <hint type="destinationlabel">
-     <x>163</x>
-     <y>76</y>
+     <x>1249</x>
+     <y>189</y>
     </hint>
    </hints>
   </connection>
@@ -26562,13 +26565,13 @@ font: 11pt bebas kai;
   </property>
  </designerdata>
  <buttongroups>
-  <buttongroup name="xycalbtnGroup"/>
-  <buttongroup name="probehelpGroup"/>
-  <buttongroup name="probetabGroup"/>
+  <buttongroup name="probemodeGroup"/>
   <buttongroup name="plotorthoperspbtnGroup"/>
-  <buttongroup name="mainorthoperspbtnGroup"/>
   <buttongroup name="plotviewGroup"/>
   <buttongroup name="proberoutinebtnGroup"/>
-  <buttongroup name="probemodeGroup"/>
+  <buttongroup name="mainorthoperspbtnGroup"/>
+  <buttongroup name="probehelpGroup"/>
+  <buttongroup name="xycalbtnGroup"/>
+  <buttongroup name="probetabGroup"/>
  </buttongroups>
 </ui>
