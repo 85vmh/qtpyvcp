@@ -186,9 +186,9 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
         
         self.rotation_xy_table = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
-        LOG.debug("---------active_wcs_index {}".format(self.active_wcs_index))
-        LOG.debug("---------active_wcs_offset {}".format(self.active_wcs_offset))
-        LOG.debug("---------wcs_offsets {}".format(self.wcs_offsets))
+        print("---------active_wcs_index {}".format(self.active_wcs_index))
+        print("---------active_wcs_offset {}".format(self.active_wcs_offset))
+        print("---------wcs_offsets {}".format(self.wcs_offsets))
 
         self.original_g5x_offset = [0.0] * NUMBER_OF_WCS
         self.original_g92_offset = [0.0] * NUMBER_OF_WCS
