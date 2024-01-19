@@ -235,7 +235,7 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
             self.machine_actor = MachineActor(self._datasource)
             self.machine_actor.SetCamera(self.camera)
 
-            self.axes_actor = AxesActor(self._datasource)
+            # self.axes_actor = AxesActor(self._datasource)
 
             LOG.debug("---------translate: {}".format(self.active_wcs_offset[:3]))
             LOG.debug("---------active_wcs_offset: {}".format(self.active_wcs_offset))
@@ -381,7 +381,7 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
             self.renderer.AddActor(self.tool_actor)
             self.renderer.AddActor(self.tool_bit_actor)
             self.renderer.AddActor(self.machine_actor)
-            self.renderer.AddActor(self.axes_actor)
+            #self.renderer.AddActor(self.axes_actor)
             self.renderer.AddActor(self.path_cache_actor)
 
             self.interactor.ReInitialize()
@@ -694,7 +694,9 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
         
         
         # Plots the movement of the tool and leaves a trace line
-        
+
+        print("---wcsOffsets: ", self._datasource.getWcsOffsets())
+
         active_wcs_offset = self._datasource.getWcsOffsets()[self._datasource.getActiveWcsIndex()]
         if self._datasource.isMachineJet():
             # update the position for JET machines so spindle/tool is

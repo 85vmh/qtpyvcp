@@ -46,7 +46,6 @@ from qtpyvcp.plugins import DataPlugin, DataChannel, getPlugin
 
 from qtpyvcp.actions.machine_actions import issue_mdi
 
-
 CMD = linuxcnc.command()
 LOG = getLogger(__name__)
 STATUS = getPlugin('status')
@@ -74,8 +73,6 @@ class OffsetTable(DataPlugin):
         8: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     }
 
-    NO_TOOL = merge(DEFAULT_OFFSET, {'T': 0, 'R': 'No Tool Loaded'})  # FIXME Requires safe removal
-
     COLUMN_LABELS = [
         'X',
         'Y',
@@ -102,16 +99,18 @@ class OffsetTable(DataPlugin):
     ]
 
     offset_table_changed = Signal(dict)
-    active_offset_changed = Signal(int)
+    offset_index_changed = Signal(int)
 
     def __init__(self, columns='XYZABCUVWR', file_header_template=None):
         super(OffsetTable, self).__init__()
 
-        file_name = INFO.getParameterFile()
+        _file_name = INFO.getParameterFile()
 
         self.parameter_file = None
-        if file_name:
-            self.parameter_file = os.path.join(os.path.dirname(os.path.realpath(file_name)), file_name)
+        if _file_name:
+            self.parameter_file = os.path.join(os.path.dirname(os.path.realpath(_file_name)), _file_name)
+
+        print("-----parameter file is:", self.parameter_file)
 
         self.fs_watcher = None
 
@@ -121,14 +120,14 @@ class OffsetTable(DataPlugin):
         self.columns = self.validateColumns(columns) or [c for c in 'XYZABCUVWR']
         self.rows = self.ROW_LABELS
 
-        self.setCurrentOffsetNumber(1)
-
+        self.current_index = 0
         self.g5x_offset_table = self.DEFAULT_OFFSET.copy()
-        self.current_index = STATUS.stat.g5x_index
+
+        # set the current value, then listen for changes
+        self.setCurrentOffsetIndex(STATUS.stat.g5x_index)
+        self.status.g5x_index.notify(self.setCurrentOffsetIndex)
 
         self.loadOffsetTable()
-
-        self.status.g5x_index.notify(self.setCurrentOffsetNumber)
 
     @DataChannel
     def current_offset(self, chan, item=None):
@@ -182,42 +181,28 @@ class OffsetTable(DataPlugin):
         return [col for col in [col.strip().upper() for col in columns]
                 if col in 'XYZABCUVWR' and not col == '']
 
-    # def newOffset(self, tnum=None):
-    #     """Get a dict of default tool values for a new tool."""
-    #     if tnum is None:
-    #         tnum = len(self.OFFSET_TABLE)
-    #     new_tool = self.DEFAULT_OFFSET.copy()
-    #     new_tool.update({'T': tnum, 'P': tnum, 'R': 'New Tool'})
-    #     return new_tool
-
     def onParamsFileChanged(self, path):
         LOG.debug('Params file changed: {}'.format(path))
         # ToolEdit deletes the file and then rewrites it, so wait
         # a bit to ensure the new data has been writen out.
         QTimer.singleShot(50, self.reloadOffsetTable)
 
-    def setCurrentOffsetNumber(self, offset_num):
-        self.current_offset.setValue(offset_num)
-        self.current_index = offset_num
-        self.active_offset_changed.emit(offset_num)
+    def setCurrentOffsetIndex(self, offset_number):
+        # the g5x_index returns 1 for G54, so we need to subtract 1 in order to get the correct index
+        self.current_offset.setValue(offset_number - 1)
+        self.current_index = offset_number - 1
+        self.offset_index_changed.emit(offset_number - 1)
+        print("-----setCurrentOffsetIndex:", offset_number - 1)
 
     def reloadOffsetTable(self):
-        # rewatch the file if it stop being watched because it was deleted
+        # re-watch the file if it stopped being watched because it was deleted
         if self.parameter_file not in self.fs_watcher.files():
             self.fs_watcher.addPath(self.parameter_file)
 
         # reload with the new data
-        offset_table = self.loadOffsetTable()
-
-    def iterTools(self, offset_table=None, columns=None):
-        offset_table = offset_table or self.OFFSET_TABLE
-        columns = self.validateColumns(columns) or self.columns
-        for offset in sorted(offset_table.keys()):
-            offset_data = offset_table[offset]
-            yield [offset_data[key] for key in columns]
+        self.loadOffsetTable()
 
     def loadOffsetTable(self):
-
         if self.parameter_file:
             with open(self.parameter_file, 'r') as fh:
                 for line in fh:
@@ -263,10 +248,9 @@ class OffsetTable(DataPlugin):
         for index in range(len(self.rows)):
             mdi_list = list()
             mdi_list.append("G10 L2")
-            mdi_list.append("P{}".format(index+1))
+            mdi_list.append("P{}".format(index + 1))
 
             for char in columns:
-
                 column_index = self.columns.index(char)
 
                 mdi_list.append("{}{}".format(char, self.g5x_offset_table[index][column_index]))

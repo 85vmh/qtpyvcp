@@ -27,7 +27,6 @@ def addSetting(id, **kwargs):
 
 
 class Setting(QObject):
-
     signal = Signal(object)
 
     def __init__(self, fget=None, fset=None, freset=None, default_value=False,
@@ -45,12 +44,16 @@ class Setting(QObject):
 
         self.max_value = max_value
         self.min_value = min_value
-
         self.enum_options = None
+
         if options and isinstance(options, list):
+            options.sort()
             self.enum_options = options
-            self.min_value = 0
-            self.max_value = len(options) - 1
+            # If there is no min_value or max_value set them to the first and last item of the options list
+            if self.min_value is None:
+                self.min_value = options[0]
+            if self.max_value is None:
+                self.max_value = options[-1]
 
         self.value = self.default_value = default_value
 
@@ -95,7 +98,7 @@ class Setting(QObject):
         return value
 
     def normalizeValue(self, value):
-        if type(value) != self.value_type:
+        if not isinstance(value, self.value_type):
             try:
                 value = self.value_type(value)
             except ValueError:
@@ -163,13 +166,14 @@ def setting(id, default_value=False, value_type=None, max_value=None, min_value=
 
         SETTINGS[id] = obj
         return obj
+
     return wrapper
 
 
 if __name__ == "__main__":
-
     def printChanged(val):
         print(("Setting changed:", val))
+
 
     s = Setting(default_value=9)
     s.notify(printChanged)
@@ -183,12 +187,14 @@ if __name__ == "__main__":
     def speed(setting_obj):
         return setting_obj.value
 
+
     @speed.setter
     def speed(setting_obj, val):
         print('in speed setter')
         print((setting_obj, val))
         setting_obj.value = val
         setting_obj.signal.emit(val)
+
 
     print(SETTINGS)
     print((repr(speed)))
@@ -204,7 +210,6 @@ if __name__ == "__main__":
         def __init__(self):
             print("inited")
 
-
         @setting('test.setting', False, True)
         def on(self, setting_obj):
             return setting_obj.value
@@ -215,11 +220,11 @@ if __name__ == "__main__":
             setting_obj.value = val
             setting_obj.signal.emit(val)
 
+
     t = Test()
     print(t)
 
     t.on.notify(printChanged)
-
 
     print((t.on.value))
     t.on.setValue(True)

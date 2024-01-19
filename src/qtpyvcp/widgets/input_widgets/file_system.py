@@ -48,9 +48,6 @@ class RemovableDeviceComboBox(QComboBox):
         self._file_locations.removable_devices.notify(self.onRemovableDevicesChanged)
         self._file_locations.new_device.notify(self.onNewDeviceAdded)
 
-        self.info = Info()
-        self._program_prefix = self.info.getProgramPrefix()
-
         self.currentTextChanged.connect(self.onCurrentTextChanged)
 
         # initialize device list
@@ -409,13 +406,13 @@ class FileSystemTable(QTableView, TableType):
     @Slot()
     def viewNCFilesDirectory(self):
         # ToDo: Make preset user definable
-        path = os.path.expanduser(self._nc_files_dir)
+        path = os.path.expanduser(self.nc_file_dir)
         self.setRootPath(path)
 
     @Slot()
     def viewPresetDirectory(self):
         # ToDo: Make preset user definable
-        preset = os.path.expanduser(self._nc_files_dir)
+        preset = os.path.expanduser(self.nc_file_dir)
         self.setRootPath(preset)
 
     @Slot()
