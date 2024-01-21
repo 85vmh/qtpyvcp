@@ -162,3 +162,14 @@ class DROLineEdit_Plugin(_DesignerPlugin):
         return 'dro_entry'
     def designerExtensions(self):
         return [DroEditorExtension, RulesEditorExtension]
+
+
+from .teachin_button import TeachInButton
+from qtpyvcp.widgets.qtdesigner.dro_editor import DroEditorExtension
+class TeachInButton_Plugin(_DesignerPlugin):
+    def pluginClass(self):
+        return TeachInButton
+    def objectName(self):
+        return 'teach_in_button'
+    def designerExtensions(self):
+        return [DroEditorExtension, RulesEditorExtension]
