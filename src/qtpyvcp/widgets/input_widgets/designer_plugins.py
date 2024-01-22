@@ -74,7 +74,7 @@ class ProbeSimPlugin(_DesignerPlugin):
     def pluginClass(self):
         return ProbeSim
 
-from .vcp_setting_widget import VCPSettingsLineEdit
+from .setting_slider import VCPSettingsLineEdit
 from qtpyvcp.widgets.qtdesigner.settings_selector import SettingSelectorExtension
 class VCPSettingsLineEditPlugin(_DesignerPlugin):
     def pluginClass(self):
@@ -84,7 +84,7 @@ class VCPSettingsLineEditPlugin(_DesignerPlugin):
     def designerExtensions(self):
         return [SettingSelectorExtension, RulesEditorExtension]
 
-from .vcp_setting_widget import VCPSettingsSlider
+from .setting_slider import VCPSettingsSlider
 class VCPSettingsSliderPlugin(_DesignerPlugin):
     def pluginClass(self):
         return VCPSettingsSlider
@@ -93,7 +93,7 @@ class VCPSettingsSliderPlugin(_DesignerPlugin):
     def designerExtensions(self):
         return [SettingSelectorExtension, RulesEditorExtension]
 
-from .vcp_setting_widget import VCPSettingsSpinBox
+from .setting_slider import VCPSettingsSpinBox
 class VCPSettingsSpinBoxPlugin(_DesignerPlugin):
     def pluginClass(self):
         return VCPSettingsSpinBox
@@ -102,7 +102,7 @@ class VCPSettingsSpinBoxPlugin(_DesignerPlugin):
     def designerExtensions(self):
         return [SettingSelectorExtension, RulesEditorExtension]
 
-from .vcp_setting_widget import VCPSettingsDoubleSpinBox
+from .setting_slider import VCPSettingsDoubleSpinBox
 class VCPSettingsDoubleSpinBoxPlugin(_DesignerPlugin):
     def pluginClass(self):
         return VCPSettingsDoubleSpinBox
@@ -111,7 +111,7 @@ class VCPSettingsDoubleSpinBoxPlugin(_DesignerPlugin):
     def designerExtensions(self):
         return [SettingSelectorExtension, RulesEditorExtension]
 
-from .vcp_setting_widget import VCPSettingsCheckBox
+from .setting_slider import VCPSettingsCheckBox
 class VCPSettingsCheckBoxPlugin(_DesignerPlugin):
     def pluginClass(self):
         return VCPSettingsCheckBox
@@ -125,7 +125,7 @@ class VCPSettingsCheckBoxPlugin(_DesignerPlugin):
           </property>
         </widget>"""
 
-from .vcp_setting_widget import VCPSettingsPushButton
+from .setting_slider import VCPSettingsPushButton
 class VCPSettingsPushButtonPlugin(_DesignerPlugin):
     def pluginClass(self):
         return VCPSettingsPushButton
@@ -139,7 +139,7 @@ class VCPSettingsPushButtonPlugin(_DesignerPlugin):
           </property>
         </widget>"""
 
-from .vcp_setting_widget import VCPSettingsComboBox
+from .setting_slider import VCPSettingsComboBox
 class VCPSettingsComboBoxPlugin(_DesignerPlugin):
     def pluginClass(self):
         return VCPSettingsComboBox
