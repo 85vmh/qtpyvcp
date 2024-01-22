@@ -1,4 +1,4 @@
-from qtpy.QtCore import Property
+from qtpy.QtCore import Property, Slot
 from qtpy.QtWidgets import QLineEdit, QSlider, QSpinBox, QDoubleSpinBox, QCheckBox, QComboBox, QPushButton
 from qtpy.QtGui import QIntValidator, QDoubleValidator
 
@@ -45,6 +45,7 @@ class VCPSettingsLineEdit(QLineEdit, VCPAbstractSettingsWidget):
         else:
             return str(value)
 
+    @Slot(float)
     def setValue(self, text):
         if self._setting is not None:
             value = self._setting.normalizeValue(text)
