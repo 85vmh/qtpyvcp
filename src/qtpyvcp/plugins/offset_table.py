@@ -110,8 +110,6 @@ class OffsetTable(DataPlugin):
         if _file_name:
             self.parameter_file = os.path.join(os.path.dirname(os.path.realpath(_file_name)), _file_name)
 
-        print("-----parameter file is:", self.parameter_file)
-
         self.fs_watcher = None
 
         self.command = linuxcnc.command()
@@ -189,10 +187,10 @@ class OffsetTable(DataPlugin):
 
     def setCurrentOffsetIndex(self, offset_number):
         # the g5x_index returns 1 for G54, so we need to subtract 1 in order to get the correct index
-        self.current_offset.setValue(offset_number - 1)
-        self.current_index = offset_number - 1
-        self.offset_index_changed.emit(offset_number - 1)
-        print("-----setCurrentOffsetIndex:", offset_number - 1)
+        actual_index = offset_number - 1
+        self.current_offset.setValue(offset_number)
+        self.current_index = actual_index
+        self.offset_index_changed.emit(actual_index)
 
     def reloadOffsetTable(self):
         # re-watch the file if it stopped being watched because it was deleted
