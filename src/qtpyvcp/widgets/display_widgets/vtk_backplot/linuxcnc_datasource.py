@@ -5,6 +5,7 @@ from qtpy.QtCore import Signal, QObject
 from qtpyvcp.plugins import getPlugin
 from qtpyvcp.utilities import logger
 from qtpyvcp.utilities.info import Info
+from qtpyvcp.widgets.display_widgets.vtk_backplot.coordinate import Coordinate
 
 INFO = Info()
 LOG = logger.getLogger(__name__)
@@ -19,7 +20,7 @@ mocked for testing the VTK outside of a linuxcnc context.
 
 class LinuxCncDataSource(QObject):
     programLoaded = Signal(str)
-    positionChanged = Signal(tuple)
+    positionChanged = Signal(Coordinate)
     motionTypeChanged = Signal(int)
     g5xOffsetChanged = Signal(tuple)
     rotationXYChanged = Signal(float)
@@ -44,8 +45,12 @@ class LinuxCncDataSource(QObject):
 
         self._activeWcsIndex = 0
 
-        self._status.file.notify(self.__handleProgramLoaded)
-        self._status.position.notify(self.__handlePositionChanged)
+        self._status.file.notify(self._handleProgramLoaded)
+
+        # set the current value, then listen for changes
+        self._handlePositionChanged(self._status.position)
+        self._status.position.notify(self._handlePositionChanged)
+
         self._status.motion_type.notify(self.__handleMotionTypeChanged)
         self._status.g5x_offset.notify(self.__handleG5xOffsetChange)
         self._status.g92_offset.notify(self.__handleG92OffsetChange)
@@ -63,13 +68,14 @@ class LinuxCncDataSource(QObject):
         self._status.tool_offset.notify(self.__handleToolOffsetChanged)
         self._status.tool_table.notify(self.__handleToolTableChanged)
 
-    def __handleProgramLoaded(self, fname):
-        # LOG.debug("__handleProgramLoaded: {}".format(fname))
-        self.programLoaded.emit(fname)
+    def _handleProgramLoaded(self, file_name):
+        LOG.debug("_handleProgramLoaded: {}".format(file_name))
+        self.programLoaded.emit(file_name)
 
-    def __handlePositionChanged(self, position):
-        # LOG.debug("__handlePositionChanged: {}".format(type(position)))
-        self.positionChanged.emit(position)
+    def _handlePositionChanged(self, position):
+        LOG.debug("_handlePositionChanged: {}".format(type(position)))
+        coordinate = Coordinate.fromTuple(position)
+        self.positionChanged.emit(coordinate)
 
     def __handleMotionTypeChanged(self, motion_type):
         # LOG.debug("__handleMotionTypeChanged: {}".format(motion_type))
@@ -77,21 +83,21 @@ class LinuxCncDataSource(QObject):
 
     def __handleG5xOffsetChange(self, offset):
         print("-----__handleG5xOffsetChange: {}".format(offset))
-        # the received parameter, its missing the rotation of the current wcs
-        # emitted_offset = list(offset)
-        # active_wcs = self.getWcsOffsets()[self.getActiveWcsIndex()]
-        #
-        # LOG.debug("--------initial offset emitted: {} {}".format(type(offset),offset))
-        # LOG.debug("--------active wcs: {} {}".format(type(active_wcs), active_wcs))
-        #
-        # # emitted_offset.append(self.__getRotationOfActiveWcs())
-        # LOG.debug("--------correct_offset: {}".format(emitted_offset))
-        # result = tuple(emitted_offset)
-        # LOG.debug("--------result: {} {}".format(type(result), result))
+        # the received parameter, it's missing the rotation of the current wcs
+        emitted_offset = list(offset)
+        active_wcs = self.getWcsOffsets()[self.getActiveWcsIndex()]
+
+        LOG.debug("--------initial offset emitted: {} {}".format(type(offset),offset))
+        LOG.debug("--------active wcs: {} {}".format(type(active_wcs), active_wcs))
+
+        emitted_offset.append(self.__getRotationOfActiveWcs())
+        LOG.debug("--------correct_offset: {}".format(emitted_offset))
+        result = tuple(emitted_offset)
+        LOG.debug("--------result: {} {}".format(type(result), result))
         self.g5xOffsetChanged.emit(offset)
 
     def __handleG92OffsetChange(self, offset):
-        #LOG.debug("__handleG92OffsetChange: {}".format(type(offset)))
+        # LOG.debug("__handleG92OffsetChange: {}".format(type(offset)))
         self.g92OffsetChanged.emit(offset)
 
     def __handleWcsNumberChange(self, value):
@@ -106,13 +112,13 @@ class LinuxCncDataSource(QObject):
         # LOG.debug("--------active wcs: {} {}".format(type(active_wcs), active_wcs))
         # active_wcs[9] = value
         # LOG.debug("--------active new wcs: {} {}".format(type(active_wcs), active_wcs))
-        
+
         self.rotationXYChanged.emit(value)
 
     def __handleOffsetTableChanged(self, offset_table):
-        #LOG.debug("__handleOffsetTableChanged: {}".format(type(offset_table)))
+        # LOG.debug("__handleOffsetTableChanged: {}".format(type(offset_table)))
         self.offsetTableChanged.emit(offset_table)
-        
+
         # offset = offset_table[self.getActiveWcsIndex()]
         #
         # self.g5xOffsetChanged.emit(tuple(offset))
@@ -124,11 +130,11 @@ class LinuxCncDataSource(QObject):
         self.activeOffsetChanged.emit(current_wcs_index)
 
     def __handleToolOffsetChanged(self, tool_offset):
-        #LOG.debug("__handleToolOffsetChanged: {}".format(type(tool_offset)))
+        # LOG.debug("__handleToolOffsetChanged: {}".format(type(tool_offset)))
         self.toolOffsetChanged.emit(tool_offset)
 
     def __handleToolTableChanged(self, tool_table):
-        #LOG.debug("__handleToolTableChanged: {}".format(type(tool_table)))
+        # LOG.debug("__handleToolTableChanged: {}".format(type(tool_table)))
         self.toolTableChanged.emit(tool_table)
 
     def getAxis(self):
@@ -154,7 +160,7 @@ class LinuxCncDataSource(QObject):
 
     def isMachineFoam(self):
         return self._is_foam
-    
+
     def isMachineJet(self):
         return self._is_jet
 
