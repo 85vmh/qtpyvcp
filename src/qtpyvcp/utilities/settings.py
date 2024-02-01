@@ -47,13 +47,15 @@ class Setting(QObject):
         self.enum_options = None
 
         if options and isinstance(options, list):
-            options.sort()
+            if not isinstance(value_type, str):
+                options.sort()
             self.enum_options = options
-            # If there is no min_value or max_value set them to the first and last item of the options list
-            if self.min_value is None:
-                self.min_value = options[0]
-            if self.max_value is None:
-                self.max_value = options[-1]
+            if not isinstance(value_type, str):
+                # If there is no min_value or max_value set them to the first and last item of the options list
+                if self.min_value is None:
+                    self.min_value = options[0]
+                if self.max_value is None:
+                    self.max_value = options[-1]
 
         self.value = self.default_value = default_value
 

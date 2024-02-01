@@ -295,10 +295,16 @@ class VCPSettingsComboBox(QComboBox, VCPAbstractSettingsWidget):
             options = self._setting.enum_options
             if isinstance(options, list):
                 for option in options:
-                    self.addItem(option)
+                    self.addItem(str(option))
 
-            self.setDisplayIndex(value)
-            self.currentIndexChanged.emit(value)
+            try:
+                index = options.index(value)
+            except ValueError:
+                print(f"Value '{value}' is not in the options list.")
+                index = 0
+
+            self.setDisplayIndex(index)
+            self.currentIndexChanged.emit(index)
 
             self._setting.notify(self.setDisplayIndex)
             self.currentIndexChanged.connect(self._setting.setValue)
