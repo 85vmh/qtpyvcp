@@ -133,7 +133,7 @@ class DROBaseWidget(VCPWidget):
         self.updateValue()
 
     def _isInDiameterMode(self):
-        return self._lathe_mode == LatheMode.Diameter or (self._lathe_mode == LatheMode.Auto and self._g7_active)
+        return True #self._lathe_mode == LatheMode.Diameter or (self._lathe_mode == LatheMode.Auto and self._g7_active)
 
     def updateValue(self, pos=None):
         """Update the displayed position."""
