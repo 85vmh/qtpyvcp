@@ -1,4 +1,4 @@
-from qtpy.QtCore import Property
+from qtpy.QtCore import Property, Slot
 from qtpy.QtWidgets import QLineEdit, QSlider, QSpinBox, QDoubleSpinBox, QCheckBox, QComboBox, QPushButton
 from qtpy.QtGui import QIntValidator, QDoubleValidator
 
@@ -41,14 +41,11 @@ class VCPSettingsLineEdit(QLineEdit, VCPAbstractSettingsWidget):
 
     def formatValue(self, value):
         if self._setting.value_type in (int, float):
-            return self._text_format.format(value)
-
-        if isinstance(value, str):
-            return value
-
+            return format(value, self._text_format)
         else:
             return str(value)
 
+    @Slot(float)
     def setValue(self, text):
         if self._setting is not None:
             value = self._setting.normalizeValue(text)
@@ -71,13 +68,12 @@ class VCPSettingsLineEdit(QLineEdit, VCPAbstractSettingsWidget):
 
             val = self._setting.getValue()
 
-            validator = None
-            if type(val) == int:
-                validator = QIntValidator()
-            elif type(val) == float:
-                validator = QDoubleValidator()
-
-            self.setValidator(validator)
+            if isinstance(val, int):
+                self.setValidator(QIntValidator())
+            elif isinstance(val, float):
+                self.setValidator(QDoubleValidator())
+            else:
+                self.setValidator(None)
 
             if self._tmp_value:
                 self.setDisplayValue(self._tmp_value)
@@ -136,7 +132,6 @@ class VCPSettingsSlider(QSlider, VCPAbstractSettingsWidget):
 
     def mouseDoubleClickEvent(self, event):
         self.setValue(100)
-
 
     def initialize(self):
         self._setting = SETTINGS.get(self._setting_name)
@@ -211,7 +206,7 @@ class VCPSettingsDoubleSpinBox(QDoubleSpinBox, VCPAbstractSettingsWidget):
 
             self.setDisplayValue(self._setting.getValue())
             self._setting.notify(self.setDisplayValue)
-            #self.valueChanged.connect(self._setting.setValue)
+            # self.valueChanged.connect(self._setting.setValue)
             self.editingFinished.connect(self.editingEnded)
 
 
@@ -235,7 +230,6 @@ class VCPSettingsCheckBox(QCheckBox, VCPAbstractSettingsWidget):
     def initialize(self):
         self._setting = SETTINGS.get(self._setting_name)
         if self._setting is not None:
-
             value = self._setting.getValue()
 
             self.setDisplayChecked(value)
@@ -301,10 +295,16 @@ class VCPSettingsComboBox(QComboBox, VCPAbstractSettingsWidget):
             options = self._setting.enum_options
             if isinstance(options, list):
                 for option in options:
-                    self.addItem(option)
+                    self.addItem(str(option))
 
-            self.setDisplayIndex(value)
-            self.currentIndexChanged.emit(value)
+            try:
+                index = options.index(value)
+            except ValueError:
+                print(f"Value '{value}' is not in the options list.")
+                index = 0
+
+            self.setDisplayIndex(index)
+            self.currentIndexChanged.emit(index)
 
             self._setting.notify(self.setDisplayIndex)
             self.currentIndexChanged.connect(self._setting.setValue)

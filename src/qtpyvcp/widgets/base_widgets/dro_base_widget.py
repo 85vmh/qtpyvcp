@@ -3,18 +3,15 @@ DROBaseWidget
 -------------
 
 """
-
 from enum import IntEnum
 
 from qtpy.QtCore import Slot, Property
 
 from qtpyvcp.plugins import getPlugin
-from qtpyvcp.utilities.settings import getSetting
-
-from qtpyvcp.widgets import VCPWidget
 from qtpyvcp.utilities import logger
-
 from qtpyvcp.utilities.info import Info
+from qtpyvcp.utilities.settings import getSetting
+from qtpyvcp.widgets import VCPWidget
 
 LOG = logger.getLogger(__name__)
 INFO = Info()
@@ -27,19 +24,19 @@ class Axis(IntEnum):
 
 class Units(IntEnum):
     Program = 0  # Auto based on G20/G21
-    Inch = 1     # Always show inch units
-    Metric = 2   # Always show metric units
+    Inch = 1  # Always show inch units
+    Metric = 2  # Always show metric units
 
 
 class RefType(IntEnum):
-    Absolute = 0      # Relative to G53
-    Relative = 1      # Relative to current WCS
+    Absolute = 0  # Relative to G53
+    Relative = 1  # Relative to current WCS
     DistanceToGo = 2  # Remaining distance of the current move
 
 
 class LatheMode(IntEnum):
-    Auto = 0      # Auto based on G7/G8
-    Radius = 1    # Always show radius
+    Auto = 0  # Auto based on G7/G8
+    Radius = 1  # Always show radius
     Diameter = 2  # Always show diameter
 
 
@@ -59,7 +56,7 @@ class DROBaseWidget(VCPWidget):
         self._ref_typ = RefType.Relative
         self._mm_fmt = '%10.3f'
         self._in_fmt = '%9.4f'
-        self._deg_fmt = '%10.2f' #'%(deg) %(min)\' %(sec)"'
+        self._deg_fmt = '%10.2f'  # '%(deg) %(min)\' %(sec)"'
 
         self._use_global_fmt_settings = True
 
@@ -112,7 +109,8 @@ class DROBaseWidget(VCPWidget):
         self.updateValue()
 
         if self._is_lathe:
-            self.status.gcodes.notify(self.updateDiameterMode)
+            self._updateDiameterMode(self.status.gcodes)
+            self.status.gcodes.notify(self._updateDiameterMode)
 
         if self._use_global_fmt_settings:
 
@@ -130,9 +128,12 @@ class DROBaseWidget(VCPWidget):
             except AttributeError:  # settings not found
                 pass
 
-    def updateDiameterMode(self, gcodes):
+    def _updateDiameterMode(self, gcodes):
         self._g7_active = 'G7' in gcodes
         self.updateValue()
+
+    def _isInDiameterMode(self):
+        return True #self._lathe_mode == LatheMode.Diameter or (self._lathe_mode == LatheMode.Auto and self._g7_active)
 
     def updateValue(self, pos=None):
         """Update the displayed position."""
@@ -140,14 +141,15 @@ class DROBaseWidget(VCPWidget):
             pos = getattr(self.pos, self._ref_typ.name).getValue()
 
         if self._is_lathe and self._anum == Axis.X:
-            if self._lathe_mode == LatheMode.Diameter or \
-                    (self._lathe_mode == LatheMode.Auto and self._g7_active):
-                self.setText(self._fmt % (pos[self._anum] * 2))
+            if self._isInDiameterMode():
+                self.setValue(self._fmt % (pos[self._anum] * 2))
             else:
-                self.setText(self._fmt % pos[self._anum])
-
+                self.setValue(self._fmt % pos[self._anum])
         else:
-            self.setText(self._fmt % pos[self._anum])
+            self.setValue(self._fmt % pos[self._anum])
+
+    def setValue(self, value):
+        pass
 
     @Property(int)
     def referenceType(self):

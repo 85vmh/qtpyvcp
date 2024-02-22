@@ -11,6 +11,7 @@ from qtpyvcp.widgets.base_widgets.dro_base_widget import DROBaseWidget, Axis, La
 from qtpyvcp.actions.machine_actions import issue_mdi
 
 from qtpyvcp.utilities import logger
+
 LOG = logger.getLogger(__name__)
 
 
@@ -63,11 +64,14 @@ class DROLineEdit(EvalLineEdit, DROBaseWidget):
 
         super(DROLineEdit, self).updateValue(pos)
 
+    def setValue(self, value):
+        self.setText(value)
+
     def setCurrentPos(self):
         # Run once user starts editing field.
         self.isEdited = True
         self.last_commanded_pos = self.status.stat.position[self._anum]
-    
+
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Escape:
             super(DROLineEdit, self).updateValue()

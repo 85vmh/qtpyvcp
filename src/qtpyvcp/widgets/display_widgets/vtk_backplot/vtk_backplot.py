@@ -241,7 +241,7 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
             
             self.machine_actor.SetCamera(self.camera)
 
-            self.axes_actor = AxesActor(self._datasource)
+            # self.axes_actor = AxesActor(self._datasource)
 
             LOG.debug("---------translate: {}".format(self.active_wcs_offset[:3]))
             LOG.debug("---------active_wcs_offset: {}".format(self.active_wcs_offset))
@@ -249,8 +249,8 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
             transform = vtk.vtkTransform()
             transform.Translate(*self.active_wcs_offset[:3])
             transform.RotateZ(self._datasource.getRotationOfActiveWcs())
-            
-            
+
+
             # FIXME: need machine coords
             # self.axes_actor.SetUserTransform(transform)
             self.path_actors = OrderedDict()
@@ -267,18 +267,18 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
 
             if self.spindle_model is not None:
                 self.spindle_actor = SpindleActor(self._datasource, self.spindle_model)
-            
-            
+
+
             if self.plotMachine == True:
-                
+
                 self.machine_parts = self._datasource._inifile.find("VTK", "MACHINE_PARTS")
-            
+
                 if self.machine_parts:
                     with open(self.machine_parts, 'r') as f:
                         self.machine_parts_data = yaml.load(f, Loader=yaml.SafeLoader)
-                        
+
                         self.machine_parts_actor = MachinePartsASM(self.machine_parts_data)
-            
+
             self.tool_actor = ToolActor(self._datasource)
             self.tool_bit_actor = ToolBitActor(self._datasource)
 
@@ -328,18 +328,18 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
 
             # Add the observers to watch for particular events. These invoke Python functions.
             self._datasource.programLoaded.connect(self.load_program)
-            
+
             self._datasource.positionChanged.connect(self.update_position)
             self._datasource.motionTypeChanged.connect(self.motion_type)
-            
+
             self._datasource.rotationXYChanged.connect(self.update_rotation_xy)
             self._datasource.g5xIndexChanged.connect(self.update_g5x_index)
             self._datasource.g5xOffsetChanged.connect(self.update_g5x_offset)
             self._datasource.g92OffsetChanged.connect(self.update_g92_offset)
-            
+
             # self._datasource.offsetTableChanged.connect(self.on_offset_table_changed)
             # self._datasource.activeOffsetChanged.connect(self.update_active_wcs)
-            
+
             self._datasource.toolTableChanged.connect(self.update_tool)
             self._datasource.toolOffsetChanged.connect(self.update_tool)
             # self.status.g5x_index.notify(self.update_g5x_index)
@@ -372,11 +372,11 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
                 self.renderer.AddActor(axes)
                 self.renderer.AddActor(program_bounds_actor)
                 self.renderer.AddActor(path_actor)
-                
+
             if self.plotMachine == True:
                 if self.machine_parts:
                     self.renderer.AddActor(self.machine_parts_actor)
-                
+
                 if self.table_model is not None:
                     self.renderer.AddActor(self.table_actor)
 
@@ -387,7 +387,7 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
             self.renderer.AddActor(self.tool_actor)
             self.renderer.AddActor(self.tool_bit_actor)
             self.renderer.AddActor(self.machine_actor)
-            self.renderer.AddActor(self.axes_actor)
+            #self.renderer.AddActor(self.axes_actor)
             self.renderer.AddActor(self.path_cache_actor)
 
             self.interactor.ReInitialize()
@@ -579,7 +579,7 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
             # if wcs_index == self.active_wcs_index:
 
             self.renderer.RemoveActor(axes_actor)
-            
+
             self.renderer.RemoveActor(actor)
             self.renderer.RemoveActor(program_bounds_actor)
 
@@ -614,7 +614,7 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
 
             self.tool_bit_actor.set_foam_offsets(z, w)
 
-        
+
         for wcs_index, actor in list(self.path_actors.items()):
             LOG.debug("---------wcs_offsets: {}".format(self.wcs_offsets))
             LOG.debug("---------wcs_index: {}".format(wcs_index))
@@ -622,24 +622,24 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
             current_offsets = self.wcs_offsets[wcs_index]
             # rotation = self._datasource.getRotationOfActiveWcs()
             LOG.debug("---------current_offsets: {}".format(current_offsets))
-            
-            
+
+
             xyz = current_offsets[:3]
-            
+
             rotation = self.active_rotation
-            
+
             self.rotation_xy_table.insert(wcs_index-1, rotation)
-            
+
             actor_transform = vtk.vtkTransform()
             axes_transform = vtk.vtkTransform()
-                
+
             actor_transform.Translate(*xyz)
             actor_transform.RotateZ(rotation)
-            
+
             axes_transform.Translate(*xyz)
             axes_transform.RotateZ(rotation)
 
-                
+
             actor.SetUserTransform(actor_transform)
 
             LOG.debug("---------current_position: {}".format(*current_offsets[:3]))
@@ -659,8 +659,8 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
             self.renderer.AddActor(actor)
             QApplication.processEvents()
 
-        
-        
+
+
         # self.renderer.AddActor(self.axes_actor)
         self.renderer_window.Render()
         if self.program_view_when_loading_program:
@@ -676,7 +676,7 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
         if value == linuxcnc.MOTION_TYPE_TOOLCHANGE:
             self.update_tool()
 
-   
+
     def get_asm_parts(self, parts):
         # helper function to iterate over machine parts tree
         for part in parts.GetParts():
@@ -690,19 +690,21 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
                     #     yield p
             # elif isinstance(part, vtk.vtkActor):
             #     yield part
-                    
+
     def update_position(self, position):  # the tool movement
-        
+
         self.current_time = round(time.time() * 1000)
-        
+
         if self.current_time - self.prev_plot_time >= self.plot_interval:
             self.prev_plot_time  = self.current_time;
         else:
             return
-        
-        
+
+
         # Plots the movement of the tool and leaves a trace line
-        
+
+        LOG.debug("---wcsOffsets: ", self._datasource.getWcsOffsets())
+
         active_wcs_offset = self._datasource.getWcsOffsets()[self._datasource.getActiveWcsIndex()]
         if self._datasource.isMachineJet():
             # update the position for JET machines so spindle/tool is

@@ -33,9 +33,6 @@ class ItemDelegate(QStyledItemDelegate):
 
     def __init__(self, columns):
         super(ItemDelegate, self).__init__()
-
-
-
         self._columns = columns
         self._padding = ' ' * 2
 
@@ -49,6 +46,7 @@ class ItemDelegate(QStyledItemDelegate):
 
         return "{}{}".format(self._padding, value)
 
+    # TODO: do we need an editor at all here?
     def createEditor(self, parent, option, index):
         # ToDo: set dec placed for IN and MM machines
         col = self._columns[index.column()]
@@ -139,7 +137,7 @@ class OffsetModel(QStandardItemModel):
 
         elif role == Qt.TextColorRole:
 
-            offset = index.row() + 1
+            offset = index.row()
 
             if self.ot.current_index == offset:
 

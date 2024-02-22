@@ -108,7 +108,7 @@ class Status(DataPlugin):
             QApplication.setOverrideCursor(Qt.BusyCursor)
         self.locking_count += 1
         LOG.debug(f"Add lock. Total = {self.locking_count}")
-    
+
     def removeLock(self):
         self.locking_count -= 1
         if self.locking_count <= 0:
@@ -224,7 +224,7 @@ class Status(DataPlugin):
         cmds = chan.value
         cmds[index2], cmds[index1] = cmds[index1], cmds[index2]
         chan.signal.emit(cmds)
-    
+
     def mdi_remove_all(self):
         """Remove all entries in mdi history"""
         chan = self.mdi_history
@@ -697,8 +697,8 @@ class Status(DataPlugin):
         if self.no_force_homing:
             all_homed = True
         else:
-            for anum in INFO.AXIS_NUMBER_LIST:
-                if STAT.homed[anum] != 1:
+            for jnum in range(STAT.joints):
+                if not STAT.joint[jnum]['homed']:
                     all_homed = False
                     break
             else:

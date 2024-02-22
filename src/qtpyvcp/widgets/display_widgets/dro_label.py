@@ -16,3 +16,6 @@ class DROLabel(QLabel, DROBaseWidget):
 
     def __init__(self, parent=None):
         super(DROLabel, self).__init__(parent)
+
+    def setValue(self, value):
+        self.setText(value)
