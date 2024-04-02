@@ -13,11 +13,11 @@ class TeachInLineEdit(QLineEdit, DROBaseWidget):
 
     def __init__(self, parent=None):
         super(TeachInLineEdit, self).__init__(parent)
-        self.current_value = 0
+        self.current_value = '0.000'
 
     def setValue(self, value):
-        self.current_value = float(value)
+        self.current_value = value
 
     @Slot()
     def fillWithCurrentValue(self):
-        self.setText(str(self.current_value))
+        self.setText(self.current_value)
