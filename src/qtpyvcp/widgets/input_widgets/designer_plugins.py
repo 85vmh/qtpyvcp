@@ -24,6 +24,7 @@ from .setting_slider import (VCPSettingsLineEdit,
                              VCPSettingsCheckBox,
                              VCPSettingsPushButton,
                              VCPSettingsComboBox)
+from .teachin_dro_label import TeachInDroLabel
 from .teachin_line_edit import TeachInLineEdit
 from .tool_table import ToolTable
 
@@ -216,6 +217,17 @@ class TeachInLineEdit_Plugin(_DesignerPlugin):
 
     def objectName(self):
         return 'teachin_line_edit'
+
+    def designerExtensions(self):
+        return [DroEditorExtension, RulesEditorExtension]
+
+
+class TeachInDroLabel_Plugin(_DesignerPlugin):
+    def pluginClass(self):
+        return TeachInDroLabel
+
+    def objectName(self):
+        return 'teachin_dro_label'
 
     def designerExtensions(self):
         return [DroEditorExtension, RulesEditorExtension]
