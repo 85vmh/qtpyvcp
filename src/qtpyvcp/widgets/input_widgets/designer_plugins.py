@@ -27,6 +27,7 @@ from .setting_slider import (VCPSettingsLineEdit,
 from .teachin_dro_label import TeachInDroLabel
 from .teachin_line_edit import TeachInLineEdit
 from .tool_table import ToolTable
+from .touch_fake_line_edit import TouchFakeLineEdit
 
 
 class VCPLineEditPlugin(_DesignerPlugin):
@@ -228,6 +229,17 @@ class TeachInDroLabel_Plugin(_DesignerPlugin):
 
     def objectName(self):
         return 'teachin_dro_label'
+
+    def designerExtensions(self):
+        return [DroEditorExtension, RulesEditorExtension]
+
+
+class TouchFakeLineEdit_Plugin(_DesignerPlugin):
+    def pluginClass(self):
+        return TouchFakeLineEdit
+
+    def objectName(self):
+        return 'fake_line_edit'
 
     def designerExtensions(self):
         return [DroEditorExtension, RulesEditorExtension]

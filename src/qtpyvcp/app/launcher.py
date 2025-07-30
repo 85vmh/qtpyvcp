@@ -1,57 +1,77 @@
+import importlib
 import os
 import sys
 import time
-import importlib
-from pkg_resources import iter_entry_points
+import traceback
 
+from PyQt5.QtWidgets import QApplication
+from pkg_resources import iter_entry_points
 from qtpy.QtCore import Qt
-from qtpy.QtWidgets import QApplication
 
 import qtpyvcp
 from qtpyvcp import hal
-from qtpyvcp.utilities.logger import getLogger
 from qtpyvcp.plugins import registerPluginFromClass, postGuiInitialisePlugins
-from qtpyvcp.widgets.dialogs.error_dialog import ErrorDialog, IGNORE_LIST
-
 from qtpyvcp.utilities.info import Info
+from qtpyvcp.utilities.logger import getLogger
+from qtpyvcp.widgets.dialogs.error_dialog import ErrorDialog
+from qtpyvcp.widgets.dialogs.error_dialog import IGNORE_LIST
 
 LOG = getLogger(__name__)
 INFO = Info()
 
-# Catch unhandled exceptions and display in dialog
-def excepthook(exc_type, exc_msg, exc_tb):
+
+def excepthook(exc_type, exc_value, exc_tb):
+    print("\n=== FULL TRACEBACK ===")
+    traceback.print_exception(exc_type, exc_value, exc_tb)
+
+    print("\n=== STACK (from caller) ===")
+    traceback.print_stack()
+
     try:
-        filename = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        lineno = exc_tb.tb_lineno
-    except AttributeError:
-        # AttributeError: 'NoneType' object has no attribute 'tb_frame'
-        filename = 'unknown file'
-        lineno = -1
+        if exc_tb:
+            tb_list = traceback.extract_tb(exc_tb)
+            if tb_list:
+                last_entry = tb_list[-1]
+                filename = os.path.basename(last_entry.filename)
+                lineno = last_entry.lineno
+            else:
+                filename = 'unknown'
+                lineno = -1
+        else:
+            filename = 'no traceback'
+            lineno = -1
 
+        tb_text = ''.join(traceback.format_exception(exc_type, exc_value, exc_tb))
+        print("\n=== FULL TRACEBACK ===\n", tb_text)
 
-    if len(IGNORE_LIST) > 0 and (str(exc_type), str(exc_msg), lineno) in IGNORE_LIST:
-        LOG.debug('Ignoring unhandled exception in %s line %i', filename, lineno,
-                     exc_info=(exc_type, exc_msg, exc_tb))
-        return
+        if len(IGNORE_LIST) > 0 and (str(exc_type), str(exc_value), lineno) in IGNORE_LIST:
+            LOG.debug('Ignoring unhandled exception in %s line %i', filename, lineno,
+                      exc_info=(exc_type, exc_value, exc_tb))
+            return
 
-    LOG.critical('Unhandled exception in %s line %i', filename, lineno,
-                 exc_info=(exc_type, exc_msg, exc_tb))
+        LOG.critical('Unhandled exception in %s line %i', filename, lineno,
+                     exc_info=(exc_type, exc_value, exc_tb))
 
-    # if an exception occurs early on a qApp may not have been created yet,
-    # so create one so the dialog will be able to run without errors.
-    if QApplication.instance() is None:
-        app = QApplication([])
+        if QApplication.instance() is None:
+            app = QApplication([])
 
-    error_dialog = ErrorDialog(exc_info=(exc_type, exc_msg, exc_tb))
-    error_dialog.exec_()
+        error_dialog = ErrorDialog(exc_info=(exc_type, exc_value, exc_tb))
+        error_dialog.exec_()
+
+    except Exception as e:
+        print("Exception in excepthook itself:", e)
+        traceback.print_exception(exc_type, exc_value, exc_tb)
+
 
 sys.excepthook = excepthook
+
 
 def log_time(task, times=[time.time(), time.time()]):
     now = time.time()
     LOG.debug("yellow<Time:> {:.3f} (green<{:+.3f}>) - {}"
               .format(now - times[0], now - times[1], task))
     times[1] = now
+
 
 log_time("in script")
 
@@ -107,7 +127,6 @@ def launch_application(opts, config):
 
 
 def load_vcp(opts):
-
     vcp = opts.vcp
     if vcp is None:
         return
@@ -238,6 +257,5 @@ def loadWindows(windows):
 
 def loadDialogs(dialogs):
     for dialogs_id, dialogs_dict in list(dialogs.items()):
-
         inst = _initialize_object_from_dict(dialogs_dict)
         qtpyvcp.DIALOGS[dialogs_id] = inst
